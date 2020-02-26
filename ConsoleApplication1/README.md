@@ -16,4 +16,6 @@
 
 当工作副本中存在未提交内容/未做版本控制的内容时，是否中断生成？
 
+`SubWCRev ./ src.tmpl version.rc -nNm`
+
 [1]:https://tortoisesvn.net/docs/release/TortoiseSVN_zh_CN/tsvn-subwcrev.html
