@@ -3,3 +3,4 @@ Debug
 .vs
 *.db
 *.opendb
+/ConsoleApplication1/version.rc
