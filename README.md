@@ -27,20 +27,5 @@
 
 `SubWCRev ./ src.tmpl version.rc -nNm`
 
-## 资源文件
-
-Visual Stdio 2015 对于 .rc 文件的编码敏感，如果使用 UTF-8 编码，需要在 .rc 文件中 [增加编译选项][2]
-```cpp
- #pragma code_page(65001)
-```
-
-- 暂时 [没有找到方法][1] 支持 UTF-8-BOM 编码
-- 资源文件的编译，和 c/cpp 源文件的编译不相关。针对 c/c++ 编译的 `/utf-8` 操作对资源文件无效。
-
-    > RC does not support the pragma directives supported by the C/C++ compiler. 
-
-
 [s]:https://tortoisesvn.net/docs/release/TortoiseSVN_zh_CN/tsvn-subwcrev.html
 [g]:https://tortoisegit.org/docs/tortoisegit/tgit-gitwcrev.html
-[1]:https://developercommunity.visualstudio.com/content/problem/384705/visualstudio-v1590-resource-editor-using-utf-8-bom.html
-[2]:https://docs.microsoft.com/en-us/windows/win32/menurc/pragma-directives
