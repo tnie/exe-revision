@@ -1,4 +1,4 @@
-# hellokids
+# EXE-Revision
 
 使用 [SubWCRev][s] 或 [GitWCRev][g] 将源代码的版本号（数值或 sha），
 
