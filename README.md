@@ -10,7 +10,7 @@
 
 ## SubWCRev 程序
 
-> 你可以只对工作副本使用 SubWCRev，而不是直接对版本库。摘自 [SubWCRev 程序][1]
+> 你可以只对工作副本使用 SubWCRev，而不是直接对版本库。摘自 [SubWCRev 程序][s]
 
 使用 SubWCRev.exe 时需要指定工作目录，如果指定的工作目录不合理就会：
 
@@ -29,4 +29,3 @@
 
 [s]:https://tortoisesvn.net/docs/release/TortoiseSVN_zh_CN/tsvn-subwcrev.html
 [g]:https://tortoisegit.org/docs/tortoisegit/tgit-gitwcrev.html
-[1]:https://tortoisesvn.net/docs/release/TortoiseSVN_zh_CN/tsvn-subwcrev.html
