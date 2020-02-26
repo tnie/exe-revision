@@ -27,6 +27,31 @@
 
 `SubWCRev ./ src.tmpl version.rc -nNm`
 
+## GitWCRev 程序
+
+在开发过程中，出现了以下现象：
+
+GitWCRev 总是报错（或警告）“uncommitted modifications”，但是使用 `git status` 却提示工作区是干净的。
+
+怎么排查也没找到问题的原因。最终通过 ~~删除整个工作区（保留 `.git` 目录）重新检出内容，不再报错~~。问题再次复现后，只删除 visual studio 的 `.sln` 和 `.vcxproj*` 等文件重新检出，就能修复。似乎和通过 git 编辑这些文件有关。
+
+## Powershell
+
+在 Visual Studio 2015 生成事件中，使用 powershell 报错 “执行 Microsoft.PowerShell_profile.ps1 无权限”，可是通过开始菜单或 shift+右击，运行 powershell 正常。
+
+查找原因如下：
+
+1. Powershell 启动时会首先执行 Microsoft.PowerShell_profile.ps1
+2. 系统自带 [两套 powershell][5]，两套 cmd，区分 win32 和 x64
+
+    > there is an x64 and x86 version of PowerShell both of which have to have their execution policies set. 
+
+3. 操作顺利的 powershell 位于 System32 中，Visual Studio 2015 使用的 powershell 位于 SysWOW64 中。前者调整了脚本执行策略，而后者没有。
+4. 此时通过后者的 cmd 以管理员权限执行 `powershell Set-ExecutionPolicy RemoteSigned` 也报错无法生效
+5. 因为 powershell 启动就会预先执行 Microsoft.PowerShell_profile.ps1，需要解除这个循环套。把脚本重命名，重复步骤 4 即可（记得恢复脚本名称）
+
+为什么 vs2015 会用 SysWOW64 中的 powershell，暂时没有找到依据。
+
 ## 资源文件
 
 使用脚本提高自动化的程度。
@@ -68,3 +93,4 @@ Windows Powershell（[不同于 Powershell Core][3]）版本最高到 5.1，其 
 [2]:https://docs.microsoft.com/en-us/windows/win32/menurc/pragma-directives
 [3]:https://docs.microsoft.com/zh-cn/powershell/scripting/install/installing-windows-powershell?view=powershell-7
 [4]:https://docs.microsoft.com/zh-cn/powershell/module/Microsoft.PowerShell.Management/Get-Content?view=powershell-5.1
+[5]:https://stackoverflow.com/a/18533754/6728820
