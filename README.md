@@ -8,6 +8,8 @@
 
 以便从用户或客户等终端追溯源代码版本。
 
+使用 git 时，请将 `pre-push` 拷贝到 `.git/hooks/` 目录中，约束推送行为。
+
 ## SubWCRev 程序
 
 > 你可以只对工作副本使用 SubWCRev，而不是直接对版本库。摘自 [SubWCRev 程序][s]
