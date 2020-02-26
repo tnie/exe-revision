@@ -27,5 +27,44 @@
 
 `SubWCRev ./ src.tmpl version.rc -nNm`
 
+## 资源文件
+
+使用脚本提高自动化的程度。
+
+### 支持 UTF8NoBOM
+
+Visual Stdio 2015 对于 .rc 文件的编码敏感，如果使用 UTF-8 编码（默认是 UTF-16LE BOM），需要在 .rc 文件中 [增加编译选项][2]
+```cpp
+ #pragma code_page(65001)
+```
+
+- 暂时 [没有找到方法][1] 支持 UTF-8-BOM 编码
+- 资源文件的编译，和 c/cpp 源文件的编译不相关。针对 c/c++ 编译的 `/utf-8` 操作对资源文件无效。
+
+    > RC does not support the pragma directives supported by the C/C++ compiler. 
+
+### 内容替换
+
+Windows Powershell（[不同于 Powershell Core][3]）版本最高到 5.1，其 `Out-File -Encoding` 不支持 `UTF8NoBOM`，而 `UTF8` 选项又模棱两可，实际测试输出文件编码为 UTF-8-BOM。
+
+而 Powershell Core 在这方面就友好很多，默认编码就是 `UTF8NoBOM`，而非 Powershell 5.1 的 `Unicode`(UTF-16LE BOM)，但 Powershell Core 需要单独安装，系统自带的是 Windows Powershell。
+
+> 如果你对 PowerShell 6 及更高版本感兴趣，则需要安装 PowerShell Core 而不是 Windows PowerShell。
+
+如果需要对资源文件模板做自定义的内容替换（非 xxWCRev.exe 工具），应该如何做呢？
+
+- 比如以项目的实际输出文件名，更新资源文件中的 `InternalName` 和 `OriginalFilename` 原始文件名称
+- 比如要根据仓库类型 git/svn，调整 `$WCREV=7$` 和 `$WCREV$`。svn 不支持前者，git 使用后者又太长。
+
+只需要正确的读出文件内容，就能够达到我们的目的了。
+
+[`Get-Content -Encoding`][4] 默认编码是 `Default`，在中文环境中大概率会出错：
+
+> `Default` Uses the encoding that corresponds to the system's active code page (usually ANSI).
+
 [s]:https://tortoisesvn.net/docs/release/TortoiseSVN_zh_CN/tsvn-subwcrev.html
 [g]:https://tortoisegit.org/docs/tortoisegit/tgit-gitwcrev.html
+[1]:https://developercommunity.visualstudio.com/content/problem/384705/visualstudio-v1590-resource-editor-using-utf-8-bom.html
+[2]:https://docs.microsoft.com/en-us/windows/win32/menurc/pragma-directives
+[3]:https://docs.microsoft.com/zh-cn/powershell/scripting/install/installing-windows-powershell?view=powershell-7
+[4]:https://docs.microsoft.com/zh-cn/powershell/module/Microsoft.PowerShell.Management/Get-Content?view=powershell-5.1
